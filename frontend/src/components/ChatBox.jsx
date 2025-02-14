@@ -27,7 +27,11 @@ export const ChatBox = () => {
             try {
                 const response = await fetch(
                     `https://euphonious-cassata-f58cae.netlify.app/api/chats?filters[user][id][$eq]=${userId}`,
-                );
+                {
+                    headers:{
+                        "Access-Control-Allow-Origin": "*"
+                    }
+                });
                 const data = await response.json();
                 if (data.data) {
                     setMessages(data.data.map(chat => chat.message_text));
@@ -73,6 +77,7 @@ export const ChatBox = () => {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*"
                     },
                     body: JSON.stringify({
                         data: {
