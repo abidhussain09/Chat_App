@@ -4,7 +4,8 @@
   "info": {
     "singularName": "chat",
     "pluralName": "chats",
-    "displayName": "Chat"
+    "displayName": "Chat",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,7 +17,7 @@
     "message_date": {
       "type": "datetime"
     },
-    "users_permissions_user": {
+    "user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",

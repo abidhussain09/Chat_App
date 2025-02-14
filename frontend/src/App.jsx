@@ -3,6 +3,8 @@ import { Navbar } from "./components/Navbar";
 import { ChatBox } from "./components/ChatBox";
 import {Route, Routes} from "react-router"
 import { Signin } from "./components/Signin";
+import { Signup } from "./components/Signup";
+import { Signout } from "./components/Signout";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Routes>
           <Route path="/" element={<ChatBox/>}/>
           <Route path="/signin" element={<Signin/>}/>
+          <Route path="/signup" element={<Signup/>}/>
+          <Route path="/signout" element={<Signout/>}/>
         </Routes>
       </div>
     </div>

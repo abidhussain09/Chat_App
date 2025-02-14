@@ -1,26 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // To redirect if user is not logged in
 import socket from "../socket";
 
-export const ChatBox = ({ userId, token }) => {
+export const ChatBox = () => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const messagesEndRef = useRef(null);
+    const navigate = useNavigate();
+
+    // Retrieve user ID and token from localStorage
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("jwt");
+
+    // Redirect to Signin if user is not authenticated
+    useEffect(() => {
+        if (!userId || !token) {
+            navigate("/signin");
+        }
+    }, [userId, token, navigate]);
 
     // Fetch previous messages from Strapi
     useEffect(() => {
+        if (!userId || !token) return; 
+
         const fetchMessages = async () => {
             try {
                 const response = await fetch(
                     `http://localhost:1337/api/chats?filters[user][id][$eq]=${userId}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
                 );
                 const data = await response.json();
                 if (data.data) {
-                    setMessages(data.data.map(chat => chat.attributes.message_text));
+                    setMessages(data.data.map(chat => chat.message_text));
                 }
             } catch (error) {
                 console.error("Error fetching messages:", error);
@@ -47,6 +57,11 @@ export const ChatBox = ({ userId, token }) => {
     // Send a message to WebSocket and save it in Strapi
     const sendMessage = async (e) => {
         e.preventDefault();
+        if (!userId || !token) {
+            alert("You need to sign in first!");
+            return;
+        }
+
         if (message.trim()) {
             // Emit message to WebSocket
             socket.emit("message", { userId, message });

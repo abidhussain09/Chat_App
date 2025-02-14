@@ -372,6 +372,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiChatChat extends Struct.CollectionTypeSchema {
   collectionName: 'chats';
   info: {
+    description: '';
     displayName: 'Chat';
     pluralName: 'chats';
     singularName: 'chat';
@@ -392,40 +393,10 @@ export interface ApiChatChat extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
+    user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-  };
-}
-
-export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
-  collectionName: 'messages';
-  info: {
-    displayName: 'Message';
-    pluralName: 'messages';
-    singularName: 'message';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::message.message'
-    > &
-      Schema.Attribute.Private;
-    messageText: Schema.Attribute.Text;
-    publishedAt: Schema.Attribute.DateTime;
-    received_date: Schema.Attribute.Date;
-    senderEmail: Schema.Attribute.Email;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
   };
 }
 
@@ -940,7 +911,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::chat.chat': ApiChatChat;
-      'api::message.message': ApiMessageMessage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
