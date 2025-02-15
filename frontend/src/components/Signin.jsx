@@ -21,9 +21,11 @@ export const Signin = () => {
 
         try {
             const response = await fetch("https://chat-app-igty.onrender.com/api/auth/local", {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
                 },
                 body: JSON.stringify({
                     identifier: data.identifier, 
