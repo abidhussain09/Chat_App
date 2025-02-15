@@ -1,19 +1,13 @@
 import { io } from "socket.io-client";
 
-// Retrieve the JWT token from localStorage
+// Retrieve JWT token from localStorage
 const userToken = localStorage.getItem("jwt");
 
-if (!userToken) {
-  console.error("❌ No JWT token found. WebSocket connection will fail.");
-} else {
-  console.log("✅ Found JWT token:", userToken);
-}
-
 const socket = io("https://chat-app-ngfj.onrender.com", {
-  transports: ["websocket", "polling"], // ✅ Ensures fallback to polling
+  transports: ["websocket", "polling"], // ✅ Fallback in case WebSockets are blocked
   withCredentials: true, // ✅ Ensures authentication cookies are sent
   extraHeaders: {
-    Authorization: `Bearer ${userToken}`, // ✅ Send JWT for authentication
+    Authorization: `Bearer ${userToken}`, // ✅ Send JWT token for authentication
   },
   reconnection: true,
   reconnectionAttempts: 5,

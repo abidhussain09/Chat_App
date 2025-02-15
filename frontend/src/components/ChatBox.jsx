@@ -21,7 +21,7 @@ export const ChatBox = () => {
 
     // Fetch previous messages from Strapi
     useEffect(() => {
-        if (!userId || !token) return; 
+        if (!userId || !token) return;
 
         const fetchMessages = async () => {
             try {
@@ -88,7 +88,10 @@ export const ChatBox = () => {
                         },
                     }),
                     credentials: "include", // Important for CORS
-                });
+                })
+                    .then((res) => res.json())
+                    .then((data) => console.log("Chat Sent:", data))
+                    .catch((err) => console.error("Error:", err));
             } catch (error) {
                 console.error("Error saving message:", error);
             }
@@ -100,17 +103,16 @@ export const ChatBox = () => {
     return (
         <div className="w-full h-full max-w-5xl my-5 mx-auto p-5 bg-slate-200 shadow-xl rounded-xl">
             <h2 className="text-3xl font-bold text-gray-700 text-center">Chat Room</h2>
-            
+
             {/* Chat Messages */}
             <div className="h-4/5 overflow-y-auto border border-gray-300 p-3 rounded-lg bg-gray-50 mt-4">
                 {messages.map((msg, idx) => (
                     <div
                         key={idx}
-                        className={`p-3 my-2 text-white rounded-xl shadow-md max-w-xs ${
-                            idx % 2 === 0
+                        className={`p-3 my-2 text-white rounded-xl shadow-md max-w-xs ${idx % 2 === 0
                                 ? "bg-gradient-to-r from-blue-500 to-indigo-500 self-end"
                                 : "bg-gray-600"
-                        }`}
+                            }`}
                     >
                         {msg}
                     </div>
