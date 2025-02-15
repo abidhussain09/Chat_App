@@ -4,7 +4,7 @@ module.exports = [
   {
     name: "strapi::cors",
     config: {
-      origin: ["https://chat-app-two-ivory.vercel.app/"], // Allow frontend access
+      origin: ["https://chat-app-two-ivory.vercel.app"], // Allow frontend access
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       credentials: true,
     },
