@@ -17,7 +17,7 @@ export const Signup = () => {
         event.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:1337/api/auth/local/register", {
+            const response = await fetch("https://chat-app-ngfj.onrender.com/api/auth/local/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -26,7 +26,7 @@ export const ChatBox = () => {
         const fetchMessages = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:1337/api/chats?filters[user][id][$eq]=${userId}`,
+                    `https://chat-app-ngfj.onrender.com/api/chats?filters[user][id][$eq]=${userId}`,
                 );
                 const data = await response.json();
                 if (data.data) {
@@ -68,7 +68,7 @@ export const ChatBox = () => {
 
             // Save message in Strapi
             try {
-                await fetch("http://localhost:1337/api/chats", {
+                await fetch("https://chat-app-ngfj.onrender.com/api/chats", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

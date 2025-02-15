@@ -1,3 +1,8 @@
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3001");
+
+// Connect WebSocket to backend (No need for :3001)
+const socket = io("https://chat-app-ngfj.onrender.com", {
+  transports: ["websocket"], // Use WebSocket transport
+});
+
 export default socket;

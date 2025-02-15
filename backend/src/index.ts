@@ -1,21 +1,25 @@
-export default {
-  register() { },
+import { Server } from "socket.io";
 
+export default ({ env }) => ({
+  host: env("HOST", "0.0.0.0"),
+  port: env.int("PORT", 1337),
+  app: {
+    keys: env.array("APP_KEYS"),
+  },
   bootstrap({ strapi }) {
-    const { Server } = require("socket.io");
-    const io = new Server(3001, {
+    // Attach WebSocket to Strapi's HTTP server
+    const io = new Server(strapi.server.httpServer, {
       cors: {
-        origin: "http://localhost:5174",
+        origin: "*", // Allow frontend
+        methods: ["GET", "POST"],
       },
     });
 
     io.on("connection", (socket) => {
       console.log("A user connected:", socket.id);
 
-      // Handle message event
       socket.on("message", async (data) => {
         console.log("Received message:", data);
-
         const { userId, message } = data;
 
         try {
@@ -29,8 +33,8 @@ export default {
 
           console.log("Message saved:", response);
 
-          // Send the saved message back to the frontend
-          io.to(socket.id).emit("message", response);
+          // Broadcast the message to all connected clients
+          io.emit("message", response);
         } catch (error) {
           console.error("Error saving message:", error);
         }
@@ -41,4 +45,4 @@ export default {
       });
     });
   },
-};
+});
