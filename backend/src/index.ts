@@ -12,6 +12,7 @@ export default ({ env }) => ({
       cors: {
         origin: process.env.FRONTEND_URL || "http://localhost:5174", // Allow frontend
         methods: ["GET", "POST"],
+        credentials: true
       },
     });
 
