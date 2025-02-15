@@ -1,12 +1,14 @@
 module.exports = [
+  "strapi::errors", // REQUIRED: Handles errors
+  "strapi::security",
   {
     name: "strapi::cors",
     config: {
-      enabled: true,
-      origin: ["https://your-frontend.onrender.com"], // Allow frontend to access backend
+      origin: ["https://chat-app-two-ivory.vercel.app/"], // Allow frontend access
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      credentials: true,
     },
   },
-  "strapi::security",
   "strapi::logger",
   "strapi::query",
   "strapi::body",
