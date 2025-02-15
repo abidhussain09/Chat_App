@@ -8,11 +8,11 @@ export default [
       enabled: true,
       headers: "*",
       origin: [
-        "*", // Allow frontend
-        "https://chat-app-ngfj.onrender.com", // Allow backend URL for WebSocket
+        process.env.FRONTEND_URL || "http://localhost:5174", // ✅ Allow frontend
+        "https://chat-app-ngfj.onrender.com", // ✅ Allow backend requests
       ],
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      credentials: true, // ✅ Allow cookies and authentication tokens
     },
   },
   "strapi::poweredBy",

@@ -29,6 +29,7 @@ export const Signin = () => {
                     identifier: data.identifier, 
                     password: data.password,
                 }),
+                credentials: "include", //  Ensures authentication tokens are sent
             });
 
             const result = await response.json();

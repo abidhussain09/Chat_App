@@ -27,6 +27,7 @@ export const Signup = () => {
                     email: data.email,
                     password: data.password,
                 }),
+                credentials: "include", //  Ensures authentication tokens are sent
             });
 
             const result = await response.json();

@@ -27,6 +27,13 @@ export const ChatBox = () => {
             try {
                 const response = await fetch(
                     `https://chat-app-ngfj.onrender.com/api/chats?filters[user][id][$eq]=${userId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include", // Allows sending cookies & tokens
+                    }
                 );
                 const data = await response.json();
                 if (data.data) {
@@ -80,6 +87,7 @@ export const ChatBox = () => {
                             user: userId,
                         },
                     }),
+                    credentials: "include", // Important for CORS
                 });
             } catch (error) {
                 console.error("Error saving message:", error);
