@@ -1,7 +1,9 @@
-// socket.js
 import { io } from "socket.io-client";
 
-const socket = io("https://chat-app-igty.onrender.com:3001", {
+// Use environment variable for WebSocket URL
+const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_SERVER_URL || "http://localhost:3001";
+
+const socket = io(SOCKET_SERVER_URL, {
     reconnection: true,
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
@@ -13,7 +15,7 @@ const socket = io("https://chat-app-igty.onrender.com:3001", {
     rejectUnauthorized: false,
 });
 
-// Add error handling
+// Error handling
 socket.on('connect_error', (error) => {
     console.error('Connection error:', error);
 });
