@@ -131,3 +131,6 @@ build
 .strapi-cloud.json
 yarn.lock
 yarn.lock
+
+/.tmp
+/data.db
