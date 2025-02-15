@@ -6,13 +6,13 @@ export default [
     name: "strapi::cors",
     config: {
       enabled: true,
-      headers: "*",
       origin: [
-        process.env.FRONTEND_URL || "http://localhost:5174", // ✅ Allow frontend
+        "https://chat-app-psi-beige-21.vercel.app", // ✅ Allow frontend
         "https://chat-app-ngfj.onrender.com", // ✅ Allow backend requests
       ],
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-      credentials: true, // ✅ Allow cookies and authentication tokens
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // ✅ Allow all methods
+      headers: ["Content-Type", "Authorization", "Origin", "Accept"], // ✅ Explicitly allow headers
+      credentials: true, // ✅ Allow authentication & cookies
     },
   },
   "strapi::poweredBy",
