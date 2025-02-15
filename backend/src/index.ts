@@ -1,11 +1,11 @@
-// index.ts (server side)
+require("dotenv").process.config();
 export default {
   register() { },
   bootstrap({ strapi }) {
     const { Server } = require("socket.io");
     const io = new Server(3001, {
       cors: {
-        origin: "https://chat-app-two-ivery.vercel.app",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
