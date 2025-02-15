@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import { Server, ServerOptions } from "socket.io";
 
 export default ({ env }) => ({
   host: env("HOST", "0.0.0.0"),
@@ -7,13 +7,15 @@ export default ({ env }) => ({
     keys: env.array("APP_KEYS"),
   },
   bootstrap({ strapi }) {
-    // Attach WebSocket to Strapi's HTTP server
-    const io = new Server(strapi.server.httpServer, {
+    const io = new Server(strapi.server.httpServer as any, {
       cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:5174", // Allow frontend
+        origin: [
+          "https://chat-app-psi-beige-21.vercel.app", // ✅ Allow frontend
+        ],
         methods: ["GET", "POST"],
-        credentials: true
+        credentials: true,
       },
+      transports: ["websocket", "polling"] as ServerOptions["transports"], // ✅ Fix TypeScript issue
     });
 
     io.on("connection", (socket) => {
@@ -24,7 +26,6 @@ export default ({ env }) => ({
         const { userId, message } = data;
 
         try {
-          // Save chat message in Strapi (PostgreSQL)
           const response = await strapi.entityService.create("api::chat.chat", {
             data: {
               message_text: message,
@@ -33,9 +34,7 @@ export default ({ env }) => ({
           });
 
           console.log("Message saved:", response);
-
-          // Broadcast the message to all connected clients
-          io.emit("message", response);
+          io.emit("message", response); // ✅ Broadcast to all clients
         } catch (error) {
           console.error("Error saving message:", error);
         }
@@ -45,5 +44,8 @@ export default ({ env }) => ({
         console.log("User disconnected:", socket.id);
       });
     });
+
+    // Attach io instance to Strapi for global use
+    strapi.io = io;
   },
 });
