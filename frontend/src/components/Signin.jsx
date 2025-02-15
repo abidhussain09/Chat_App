@@ -20,7 +20,8 @@ export const Signin = () => {
         event.preventDefault();
 
         try {
-            const response = await fetch("https://euphonious-cassata-f58cae.netlify.app/api/auth/local", {
+            const response = await fetch("https://chat-app-igty.onrender.com/api/auth/local", {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

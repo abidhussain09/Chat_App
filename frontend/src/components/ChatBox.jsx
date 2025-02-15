@@ -26,12 +26,9 @@ export const ChatBox = () => {
         const fetchMessages = async () => {
             try {
                 const response = await fetch(
-                    `https://euphonious-cassata-f58cae.netlify.app/api/chats?filters[user][id][$eq]=${userId}`,
-                {
-                    headers:{
-                        "Access-Control-Allow-Origin": "*"
-                    }
-                });
+                    `https://chat-app-igty.onrender.com/api/chats?filters[user][id][$eq]=${userId}`,
+                );
+
                 const data = await response.json();
                 if (data.data) {
                     setMessages(data.data.map(chat => chat.message_text));
@@ -72,7 +69,9 @@ export const ChatBox = () => {
 
             // Save message in Strapi
             try {
-                await fetch("https://euphonious-cassata-f58cae.netlify.app/api/chats", {
+
+                await fetch("https://chat-app-igty.onrender.com/api/chats", {
+
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
