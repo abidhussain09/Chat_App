@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext"; // Import AuthContext
+import API from "../api/axiosInstance"; // Import Axios instance
 
 export const Signin = () => {
     const [data, setData] = useState({
@@ -20,20 +21,14 @@ export const Signin = () => {
         event.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:1337/api/auth/local", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    identifier: data.identifier, 
-                    password: data.password,
-                }),
+            const response = await API.post("/api/auth/local", {
+                identifier: data.identifier,
+                password: data.password,
             });
 
-            const result = await response.json();
+            const result = response.data;
 
-            if (response.ok) {
+            if (response.status === 200) {
                 login(result.jwt); // Update global auth state
                 localStorage.setItem("userId", result.user.id); // Store user ID if needed
                 setMessage("Login successful! Redirecting...");
@@ -42,7 +37,7 @@ export const Signin = () => {
                     navigate("/"); // Redirect to homepage
                 }, 1000);
             } else {
-                setMessage(result.error.message || "Login failed.");
+                setMessage(result.error?.message || "Login failed.");
             }
         } catch (error) {
             setMessage("An error occurred. Please try again.");
@@ -62,7 +57,7 @@ export const Signin = () => {
                 )}
 
                 <form onSubmit={submitHandler} className="space-y-4">
-                    <input 
+                    <input
                         type="text"
                         name="identifier"
                         value={data.identifier}
@@ -80,8 +75,8 @@ export const Signin = () => {
                         required
                         className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
                     />
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
                     >
                         Sign In

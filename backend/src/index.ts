@@ -1,6 +1,6 @@
+require("dotenv").process.config();
 export default {
   register() { },
-
   bootstrap({ strapi }) {
     const { Server } = require("socket.io");
     const io = new Server(3001, {
@@ -11,28 +11,25 @@ export default {
 
     io.on("connection", (socket) => {
       console.log("A user connected:", socket.id);
-
-      // Handle message event
+      
       socket.on("message", async (data) => {
-        console.log("Received message:", data);
-
-        const { userId, message } = data;
-
         try {
-          // Save chat message in Strapi (PostgreSQL)
+          const { userId, message } = data;
           const response = await strapi.entityService.create("api::chat.chat", {
             data: {
               message_text: message,
               user: userId,
             },
           });
-
-          console.log("Message saved:", response);
-
-          // Send the saved message back to the frontend
-          io.to(socket.id).emit("message", response);
+          
+          // Broadcast to all connected clients
+          io.emit("message", response);
+          
+          // Send back to sender
+          socket.emit("message", response);
         } catch (error) {
-          console.error("Error saving message:", error);
+          console.error("Error handling message:", error);
+          socket.emit("error", { message: "Failed to process message" });
         }
       });
 
