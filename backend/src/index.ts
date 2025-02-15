@@ -5,7 +5,7 @@ export default {
     const { Server } = require("socket.io");
     const io = new Server(3001, {
       cors: {
-        origin: "https://chat-app-two-ivory.vercel.app/",
+        origin: "*",
       },
     });
 
