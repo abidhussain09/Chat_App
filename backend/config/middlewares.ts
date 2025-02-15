@@ -1,11 +1,12 @@
 module.exports = [
-  "strapi::errors", // REQUIRED: Handles errors
+  "strapi::errors", // Required for error handling
   "strapi::security",
   {
     name: "strapi::cors",
     config: {
-      origin: ["https://chat-app-two-ivory.vercel.app"], // Allow frontend access
+      origin: "*", // Allow all origins (for now)
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      headers: ["Content-Type", "Authorization"],
       credentials: true,
     },
   },
