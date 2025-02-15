@@ -28,6 +28,7 @@ export const ChatBox = () => {
                 const response = await fetch(
                     `https://chat-app-igty.onrender.com/api/chats?filters[user][id][$eq]=${userId}`,
                 );
+
                 const data = await response.json();
                 if (data.data) {
                     setMessages(data.data.map(chat => chat.message_text));
@@ -68,11 +69,14 @@ export const ChatBox = () => {
 
             // Save message in Strapi
             try {
+
                 await fetch("https://chat-app-igty.onrender.com/api/chats", {
+
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*"
                     },
                     body: JSON.stringify({
                         data: {
