@@ -15,7 +15,8 @@ export default ({ env }) => ({
         methods: ["GET", "POST"],
         credentials: true,
       },
-      transports: ["websocket", "polling"] as ServerOptions["transports"], // ✅ Fix TypeScript issue
+      transports: ["websocket", "polling"] as ServerOptions["transports"],
+      allowEIO3: true,  // ✅ Fix TypeScript issue
     });
 
     io.on("connection", (socket) => {
