@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 const userToken = localStorage.getItem("jwt");
 
 const socket = io("https://chat-app-ngfj.onrender.com", {
+  path:"/socket.io",
   transports: ["websocket", "polling"], // ✅ Fallback in case WebSockets are blocked
   withCredentials: true, // ✅ Ensures authentication cookies are sent
   extraHeaders: {
@@ -11,6 +12,9 @@ const socket = io("https://chat-app-ngfj.onrender.com", {
   },
   reconnection: true,
   reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  secure:true,
+  rejectUnauthorized:false,
   timeout: 20000,
   forceNew: true,
 });
