@@ -77,13 +77,10 @@ export const ChatBox = () => {
             try {
                 await fetch("https://chat-app-ngfj.onrender.com/api/chats", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
                     body: JSON.stringify({
                         data: {
                             message_text: message,
+                            message_date: new Date().toISOString(),
                             user: userId,
                         },
                     }),
