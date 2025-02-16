@@ -23,24 +23,4 @@ export default factories.createCoreController('api::chat.chat', ({ strapi }) => 
             return ctx.internalServerError("An error occurred while saving the chat.");
         }
     },
-
-    async find(ctx) {
-        try {
-            const userId = ctx.query.userId;
-            if (!userId) {
-                return ctx.badRequest("User ID is required.");
-            }
-
-            const userChats = await strapi.entityService.findMany('api::chat.chat', {
-                filters: { user: userId },
-                populate: ['user'], // Populate user details
-                sort: { createdAt: 'asc' },
-            });
-
-            return ctx.send({ data: userChats });
-        } catch (error) {
-            console.error("Error fetching chats:", error);
-            return ctx.internalServerError("An error occurred while fetching chats.");
-        }
-    }
 }));
