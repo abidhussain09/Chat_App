@@ -68,32 +68,38 @@ export const ChatBox = () => {
             alert("You need to sign in first!");
             return;
         }
-
         if (message.trim()) {
             // Emit message to WebSocket
             socket.emit("message", { userId, message });
 
-            // Save message in Strapi
+            // Save message in Strapi with correct format
             try {
-                await fetch("https://chat-app-ngfj.onrender.com/api/chats", {
+                const response = await fetch("https://chat-app-ngfj.onrender.com/api/chats", {
                     method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: "include",
                     body: JSON.stringify({
-                        data: {
+                        data: {  // Notice the 'data' wrapper
                             message_text: message,
                             message_date: new Date().toISOString(),
-                            user: userId,
-                        },
-                    }),
-                    credentials: "include", // Important for CORS
-                })
-                    .then((res) => res.json())
-                    .then((data) => console.log("Chat Sent:", data))
-                    .catch((err) => console.error("Error:", err));
+                            user: `/api/users-permissions-users/${userId}`  // Full URL path required
+                        }
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    console.log("Message sent successfully:", data);
+                } else {
+                    console.error("Failed to send message:", data);
+                }
             } catch (error) {
                 console.error("Error saving message:", error);
             }
-
-            setMessage(""); // Clear input after sending
+            setMessage("");
         }
     };
 
@@ -107,8 +113,8 @@ export const ChatBox = () => {
                     <div
                         key={idx}
                         className={`p-3 my-2 text-white rounded-xl shadow-md max-w-xs ${idx % 2 === 0
-                                ? "bg-gradient-to-r from-blue-500 to-indigo-500 self-end"
-                                : "bg-gray-600"
+                            ? "bg-gradient-to-r from-blue-500 to-indigo-500 self-end"
+                            : "bg-gray-600"
                             }`}
                     >
                         {msg}
