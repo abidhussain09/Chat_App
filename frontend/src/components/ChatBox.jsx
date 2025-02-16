@@ -85,7 +85,7 @@ export const ChatBox = () => {
                         data: {  // Notice the 'data' wrapper
                             message_text: message,
                             message_date: new Date().toISOString(),
-                            user: `/api/users-permissions-users/${userId}`  // Full URL path required
+                            user: userId  // Full URL path required
                         }
                     })
                 });
