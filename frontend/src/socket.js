@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 // Retrieve JWT token from localStorage
 const userToken = localStorage.getItem("jwt");
 
-const socket = io("https://chat-app-ngfj.onrender.com", {
+const socket = io("https://chatapp-production-0e9e.up.railway.app", {
   path:"/socket.io",
   transports: ["websocket", "polling"], // ✅ Fallback in case WebSockets are blocked
   withCredentials: true, // ✅ Ensures authentication cookies are sent

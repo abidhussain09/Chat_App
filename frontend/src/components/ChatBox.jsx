@@ -26,7 +26,7 @@ export const ChatBox = () => {
         const fetchMessages = async () => {
             try {
                 const response = await fetch(
-                    `https://chat-app-ngfj.onrender.com/api/chats?filters[user][id][$eq]=${userId}`,
+                    `https://chatapp-production-0e9e.up.railway.app/api/chats?filters[user][id][$eq]=${userId}`,
                     {
                         method: "GET",
                         headers: {
@@ -74,7 +74,7 @@ export const ChatBox = () => {
 
             // Save message in Strapi with correct format
             try {
-                const response = await fetch("https://chat-app-ngfj.onrender.com/api/chats", {
+                const response = await fetch("https://chatapp-production-0e9e.up.railway.app/api/chats", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
