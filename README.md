@@ -33,7 +33,7 @@ A **real-time chat application** built with **React.js (Vite)** for the frontend
 
 ## 🚀 Live Demo
 🔗 **Frontend (Vercel)**: [Chat App Frontend](https://chat-app-psi-beige-21.vercel.app/)  
-🔗 **Backend (Render)**: [Strapi Backend](https://chat-app-ngfj.onrender.com)  
+🔗 **Backend (Render)**: [Strapi Backend]((https://chatapp-production-0e9e.up.railway.app))  
 
 ---
 
